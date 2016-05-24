@@ -15,32 +15,35 @@ class RegisterHandler(tornado.web.RequestHandler):
 	def on_finish(self):
 		self.db.close()
 
-	def nothing(self,param):
-		if not param:
-			self.write("lack of param")
-			return False
-		return True
-
-	def repassword(self,param1,param2):
-		if param1!=param2:
-			self.write('repassword wrong')
-			return False
-		return True
-
 	def get(self):
-		self.write("hello guys!")
+		self.render('register.html')
 
 	def post(self):
 		flag = True
-
 		type = self.get_argument("type",default=None)
 		studentnum = self.get_argument("studentnum",default=None)
 		name = self.get_argument("name",default=None).encode('utf-8')
 		password = self.get_argument("password",default=None)
 		repepassword = self.get_argument("repepassword",default=None)
 		phonenum = self.get_argument('phonenum',default=None)
-		college = self.get_argument("college",default=None)
-		branch = self.get_argument("branch",default=None)
+		college = self.get_argument("college",default=None).encode('utf-8')
+		branch = self.get_argument("branch",default=None).encode('utf-8')
+		if not (studentnum or name or password or phonenum or college or branch):
+			self.write("缺少必要信息！请重新填写")
+			flag = False
+		elif len(phonenum)!= 11:
+			self.write("手机号不符合要求，请重新填写")
+			flag = False
+		elif repepassword != password:
+			self.write("两次密码输入不一致，请重新填写")
+			flag = False
+		try:
+			data = self.db.query(Member).filter(Member.studentnum == studentnum).one()
+			if data:
+				self.write("该学号已被注册，请重新填写")
+				flag = False
+		except Exception,e:
+			print str(e)
 		# typedef = {
 		# 	0:nothing(self,studentnum),
 		# 	1:nothing(self,name),
@@ -58,6 +61,24 @@ class RegisterHandler(tornado.web.RequestHandler):
 				print 'new_user added'
 			except Exception,e:
 				print(e)
+				self.write("注册失败，请重新填写")
+
+	def check_user(self,num):
+		data = self.db.query(Member).filter(Member.studentnum == num).one()
+		if data:
+			return False
 		else:
-			self.write('register failed')
+			return True
+
+	def nothing(self,param):
+		if not param:
+			self.write("lack of param")
+			return False
+		return True
+
+	def repassword(self,param1,param2):
+		if param1!=param2:
+			self.write('repassword wrong')
+			return False
+		return True
 

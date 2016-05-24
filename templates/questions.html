@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<link rel="stylesheet" href="../static/css/ionic.min.css">
+		<link rel="stylesheet" href="../static/css/jquery.mobile-1.4.2.min.css">
+		
+		<style>
+		body{background-color:#EEEEEE;background-image:url();
+		background-size: 100% 225%;}</style>
+		
+		<title>反馈详情</title>
+	</head>
+	<body>
+		<div class="bar bar-header bar-positive">
+			<button class="button  icon ion-android-arrow-back"></button>
+			<h1 class="title" style="font-size:large;font-family:微软雅黑">"两学一做"知识竞赛</h1>
+		</div>
+		<div class="content has-header">
+			{% for item in data %}
+				<div class="row" style="padding-top:20px"></div>
+				<div  class="list card">
+					<div class="item item-avatar" >
+						<image src="../static/images/8.jpg">
+						<h2 style="font-size:x-large">单选</h2>
+						<!--<p id="{{item.id}}"></p>-->
+					</div>
+					<div class="item item-body">
+						<h2>{{item.question}}</h2>
+						<form action="../question" method="post" >
+							<input type="radio" name="{{item.id}}" value="A">A.{{item.answer1}}<br>
+							<input type="radio" name="{{item.id}}" value="B">B.{{item.answer2}}<br>
+							<input type="radio" name="{{item.id}}" value="C">C.{{item.answer3}}<br>
+							<input type="radio" name="{{item.id}}" value="D">D.{{item.answer4}}
+<!-- 							<p>
+								<a href="#" class="subdued">上一题</a>
+								<a href="#" class="subdued">下一题</a></p> -->
+							</div>
+						</div>
+					</div>
+				{% end %}
+				<input type="submit">提交
+										</form>
+				 <script type="text/javascript">
+				// 	$(document).on("pagecreate","#pageone",function(){
+				// $("p").on("swipeleft",function(){
+				// 	$("#")
+				// });
+				// });
+				 </script>
+			</body>

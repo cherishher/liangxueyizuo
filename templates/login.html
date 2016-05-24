@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="../static/css/ionic.min.css">
+    <link rel="stylesheet" href="../static/css/jquery.mobile-1.4.2.min.css">
+    <style>
+    body
+    {background-image:url('../static/images/7.jpg');
+    background-size: 100% 225%;background-repeat: no-repeat;
+    }
+    </style>
+    <title>两学一做答题系统</title>
+  </head>
+  <body>
+    <div class="bar bar-header bar-positive">
+      <!--<button class="button  icon ion-android-arrow-back"></button>-->
+      <h1 class="title" style="font-size:large;font-family:微软雅黑">登录</h1>
+      <button class="button" id="register" onclick="chg()">注册</button>
+    </div>
+    
+    <div class="content has-header">
+      <div class="row" style="padding-top:60px"></div>
+      <form method="post" action="../login">
+        <div class="list list-inset">
+          <label class="item item-input">
+            <input type="text" name="studentnum" placeholder="用户名">
+          </label>
+          <label class="item item-input">
+            <input type="password" name="password" placeholder="密码">
+          </label>
+        </div>
+        <div class="padding">
+          <button class="button button-block button-positive" type="submit" style="position:absolate;border-radius:8px">立即登录</button>
+        </div>
+      </form>
+      <div><p>123</p></div>
+    </div>
+  </body>
+  <script type="text/javascript">
+  function chg(){
+  window.location.href="../register";
+  }
+  </script>
+</html>

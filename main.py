@@ -14,6 +14,7 @@ from tornado.options import define, options
 from sqlalchemy.orm import scoped_session, sessionmaker
 from mod.db.db import engine
 from mod.login.handler import LoginHandler
+from mod.question.handler import QuestionHandler
 from mod.register.handler import RegisterHandler
 
 
@@ -24,6 +25,7 @@ class Application(tornado.web.Application):
 		handlers = [
 		    (r"/register",RegisterHandler),
 		    (r"/login",LoginHandler),
+			(r"/question",QuestionHandler),
 		]
 
 		settings = dict (

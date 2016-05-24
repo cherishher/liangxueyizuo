@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="../static/css/ionic.min.css">
+    <link rel="stylesheet" href="../static/css/jquery.mobile-1.4.2.min.css">
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="http://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+    <style>
+    body
+    {background-image:url('../static/images/7.jpg');
+    background-size: 100% 150%;background-repeat: no-repeat;}
+    </style>
+    <title>反馈详情</title>
+  </head>
+  <body>
+    <div class="bar bar-header bar-positive">
+      <!--       <button class="button  icon ion-android-arrow-back"></button> -->
+      <h1 class="title" style="font-size:large;font-family:微软雅黑">注册</h1>
+      <button class="button" type="password" onclick="chg()">登录</button>
+    </div>
+    <div class="content has-header">
+      <div class="row" style="padding-top:60px"></div>
+      <form  method="post" action="../register">
+        <div class="list list-inset">
+          <label class="item item-input">
+            <i class="icon ion-bookmark placeholder-icon"></i>
+            <input name="studentnum" type="text" placeholder=" 请输入学号">
+          </label>
+          <label class="item item-input">
+            <i class="icon ion-android-person placeholder-icon"></i>
+            <input name="name" type="text" placeholder=" 请输入姓名">
+          </label>
+          <label class="item item-input">
+            <i class="icon ion-android-phone-portrait placeholder-icon"></i>
+            <input name="phonenum" type="text" placeholder=" 请输入11位手机号">
+          </label>
+          <label class="item item-input">
+            <i class="icon ion-ios-home placeholder-icon"></i>
+            <input name="college" type="text" placeholder=" 请输入所在学院名称">
+            <!--<div style="height:30px"></div>-->
+            <!--<select style="font-size:16px;float:left;">-->
+            <!--<option>*</option>-->
+            <!--<option>建筑学院</option>-->
+            <!--<option>机械工程学院</option>-->
+            <!--<option>能源与环境学院</option>-->
+            <!--<option>信息科学与工程学院</option>-->
+            <!--<option>土木工程学院</option>-->
+            <!--<option>电子科学与工程学院</option>-->
+            <!--<option>数学系</option>-->
+            <!--<option>自动化学院</option>-->
+            <!--<option>计算机科学与工程学院、软件学院</option>-->
+            <!--<option>物理系</option>-->
+            <!--<option>生物科学与医学工程学院</option>-->
+            <!--<option>材料科学与工程学院</option>-->
+            <!--<option>人文学院</option>-->
+            <!--<option>经济管理学院</option>-->
+            <!--<option>电气工程学院</option>-->
+            <!--<option>外国语学院</option>-->
+            <!--<option>化学化工学院</option>-->
+            <!--<option>交通学院</option>-->
+            <!--<option>仪器科学与工程学院</option>-->
+            <!--<option>艺术学院</option>-->
+            <!--<option>法学院</option>-->
+            <!--<option>医学院</option>-->
+            <!--<option>公共卫生学院</option>-->
+            <!--<option>吴健雄学院</option>-->
+            <!--</select>-->
+          </label>
+          <label class="item item-input">
+            <i class="icon ion-flag placeholder-icon"></i>
+            <input type="text" name="branch" placeholder="请输入党支部">
+          </label>
+          <label class="item item-input">
+            <i class="icon ion-unlocked placeholder-icon"></i>
+            <input type="password" name="password" placeholder="请输入密码">
+          </label>
+          <label class="item item-input">
+            <i class="icon ion-locked placeholder-icon"></i>
+            <input type="password" name="repepassword" placeholder="再次输入密码">
+          </label>
+        </div>
+        <div class="padding">
+          <button class="button button-block button-positive" type="submit" style="position:absolate;border-radius:8px">立即注册</button>
+        </div>
+      </div>
+    </form>
+    <div><p>123</p></div>
+    <script type="text/javascript">
+    function chg(){
+    window.location.href="../login";
+    }
+    </script>
+  </body>

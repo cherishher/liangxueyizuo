@@ -16,17 +16,20 @@ class LoginHandler(tornado.web.RequestHandler):
 		self.db.close()
 
 	def get(self):
-		self.write("hello guys!")
+		self.render('login.html')
 
 	def post(self):
-		flag = True
-		studentnum = self.get_argument('studentnum',default=None)
-		password = self.get_argument('password',default=None)
+		try:
+			flag = True
+			studentnum = self.get_argument('studentnum',default=None)
+			password = self.get_argument('password',default=None)
 
-		data = self.db.query(Member).filter(Member.studentnum == studentnum).one()
-		print data.password
-		if data.password == password:
-			self.write('login success')
-		else:
-			self.write('login failed')
+			data = self.db.query(Member).filter(Member.studentnum == studentnum).one()
+			print data.password
+			if data.password == password:
+				self.write('登录成功！')
+			else:
+				self.write('密码错误请重新输入密码')
+		except Exception,e:
+			self.write("该用户尚未注册，请注册后再登录")
 
