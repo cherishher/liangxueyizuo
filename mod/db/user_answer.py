@@ -14,6 +14,7 @@ class Answer(Base):
     username = Column(String(4096), nullable=False)
     goal = Column(Integer,nullable=False)
     time = Column(String(64), nullable=False)
+    type = Column(Integer,nullable=False)
 
 if __name__ == '__main__':
 	Base.metadata.create_all(engine)

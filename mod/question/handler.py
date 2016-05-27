@@ -5,6 +5,7 @@ from mod.db.member import Member
 import tornado.web
 import Cookie
 from ..db.questions import Questions
+from ..db.user_answer import Answer
 import datetime
 import random
 import json,urllib
@@ -43,26 +44,31 @@ class QuestionHandler(tornado.web.RequestHandler):
 			self.redirect("/login")
 			return
 		else:
-			data1 = self.db.query(Questions).filter(Questions.type == 1).all()
-			data2 = self.db.query(Questions).filter(Questions.type == 2).all()
-			data3 = self.db.query(Questions).filter(Questions.type == 3).all()
-			question_num1 = len(data1)
-			question_num2 = len(data2)
-			question_num3 = len(data3)
-			first = 0
-			#数据要处理成随机的！
-			mydata = []
-			self.random1 = self.get_random(first,question_num1)
-			self.random2 = self.get_random(first,question_num2)
-			self.random3 = self.get_random(first,question_num3)
-			for i in range(question_num1):
-				mydata.append(data1[self.random1[i]])
-			for i in range(question_num2):
-				mydata.append(data2[self.random2[i]])
-			for i in range(question_num3):
-				mydata.append(data3[self.random3[i]])
-			# for item in data:
-			# 	print item.id
-			# print mydata
-			self.render('questions.html',data = mydata)
+			try:
+				answer = self.db.query(Answer).filter(Answer.username == self.current_user).one()
+				self.redirect("/result")
+				return
+			except Exception,e:
+				data1 = self.db.query(Questions).filter(Questions.type == 1).all()
+				data2 = self.db.query(Questions).filter(Questions.type == 2).all()
+				data3 = self.db.query(Questions).filter(Questions.type == 3).all()
+				question_num1 = len(data1)
+				question_num2 = len(data2)
+				question_num3 = len(data3)
+				first = 0
+				#数据要处理成随机的！
+				mydata = []
+				self.random1 = self.get_random(first,question_num1)
+				self.random2 = self.get_random(first,question_num2)
+				self.random3 = self.get_random(first,question_num3)
+				for i in range(question_num1):
+					mydata.append(data1[self.random1[i]])
+				for i in range(question_num2):
+					mydata.append(data2[self.random2[i]])
+				for i in range(question_num3):
+					mydata.append(data3[self.random3[i]])
+				# for item in data:
+				# 	print item.id
+				# print mydata
+				self.render('questions.html',data = mydata)
 

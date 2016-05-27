@@ -6,6 +6,7 @@ from mod.db.member import Member
 import tornado.web
 from ..db.questions import Questions
 from ..db.user_answer import Answer
+from config import *
 import datetime
 import json,urllib
 
@@ -26,7 +27,7 @@ class ResultHandler(tornado.web.RequestHandler):
 			self.redirect("/login")
 			return
 		else:
-			self.render("还是先去做题吧~")
+			self.write("亲~好像还没登录或者已经做过题了吧！")
 
 
 	def post(self):
@@ -51,10 +52,12 @@ class ResultHandler(tornado.web.RequestHandler):
 				self.write(u"失败了。。。似乎发生了什么奇怪的事情呢！")
 			#保存成绩
 			try:
-				user_answer = Answer(username = self.current_user,goal = count)
+				print u'保存失败？'
+				user_answer = Answer(username = self.current_user,goal = count,time = 0,type = ANSWER_TYPE)
 				self.db.add(user_answer)
 				self.db.commit()
 			except Exception,e:
+				print u'保存失败！'
 				self.write(u"提交失败了T_T,重新提交一次呗")
 
 			#成绩界面
