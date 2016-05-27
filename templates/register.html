@@ -21,23 +21,22 @@
     </div>
     <div class="content has-header">
       <div class="row" style="padding-top:60px"></div>
-      <form  method="post" action="../register">
         <div class="list list-inset">
           <label class="item item-input">
             <i class="icon ion-bookmark placeholder-icon"></i>
-            <input name="studentnum" type="text" placeholder=" 请输入学号">
+            <input name="studentnum" id="studentnum" type="text" placeholder=" 请输入学号">
           </label>
           <label class="item item-input">
             <i class="icon ion-android-person placeholder-icon"></i>
-            <input name="name" type="text" placeholder=" 请输入姓名">
+            <input name="name" id="name" type="text" placeholder=" 请输入姓名">
           </label>
           <label class="item item-input">
             <i class="icon ion-android-phone-portrait placeholder-icon"></i>
-            <input name="phonenum" type="text" placeholder=" 请输入11位手机号">
+            <input name="phonenum" id="phonenum" type="text" placeholder=" 请输入11位手机号">
           </label>
           <label class="item item-input">
             <i class="icon ion-ios-home placeholder-icon"></i>
-            <input name="college" type="text" placeholder=" 请输入所在学院名称">
+            <input name="college" id="college" type="text" placeholder=" 请输入所在学院名称">
             <!--<div style="height:30px"></div>-->
             <!--<select style="font-size:16px;float:left;">-->
             <!--<option>*</option>-->
@@ -69,26 +68,42 @@
           </label>
           <label class="item item-input">
             <i class="icon ion-flag placeholder-icon"></i>
-            <input type="text" name="branch" placeholder="请输入党支部">
+            <input type="text" name="branch" id="branch" placeholder="请输入党支部">
           </label>
           <label class="item item-input">
             <i class="icon ion-unlocked placeholder-icon"></i>
-            <input type="password" name="password" placeholder="请输入密码">
+            <input type="password" name="password" id="password" placeholder="请输入密码">
           </label>
           <label class="item item-input">
             <i class="icon ion-locked placeholder-icon"></i>
-            <input type="password" name="repepassword" placeholder="再次输入密码">
+            <input type="password" name="repepassword" id="repepassword" placeholder="再次输入密码">
           </label>
         </div>
         <div class="padding">
           <button class="button button-block button-positive" type="submit" style="position:absolate;border-radius:8px">立即注册</button>
         </div>
       </div>
-    </form>
     <div><p>123</p></div>
     <script type="text/javascript">
     function chg(){
     window.location.href="../login";
     }
+  $.post("/register",
+  {
+    studentnum:$("#studentnum").val(),
+    password:$("#password").val(),
+    repepassword:$("#repepassword").val(),
+    phonenum:$("#phonenum").val(),
+    college:$("#college").val(),
+    branch:$("#branch").val(),
+  },
+  function(data,status){
+    var retdata = JSON.parse(data);
+    alert(retdata['text']);
+    if(retdata['code'] == 200){
+        window.location.href="/login";
+    }
+  });
+});
     </script>
   </body>
