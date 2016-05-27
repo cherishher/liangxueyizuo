@@ -3,6 +3,7 @@
 # @Author  : 490949611@qq.com
 from mod.db.member import Member
 import tornado.web
+import Cookie
 from ..db.questions import Questions
 import datetime
 import random
@@ -10,45 +11,45 @@ import json,urllib
 from tornado.httpclient import HTTPRequest,HTTPClient
 
 class QuestionHandler(tornado.web.RequestHandler):
+	random=[]
+
 	@property
 	def db(self):
 		return self.application.db
 
+	def get_current_user(self):
+		return self.get_secure_cookie("user")
+
 	def on_finish(self):
 		self.db.close()
 
-	def swap(self,a,b):
-		c = a
-		a = b
-		b = c
+	def get_random(self,len):
+			rand = []
+			for i in range(0,len):
+				rand.append(i)
+			for i in range(0,len):
+				temp1 = random.randint(0,len-1)
+				temp2 = random.randint(0,len-1)
+				c = rand[temp1]
+				rand[temp1] = rand[temp2]
+				rand[temp2] = c
+			return rand
+
 
 	def get(self):
-		data = self.db.query(Questions).all()
-		question_num = len(data)
-		#数据要处理成随机的！
-		mydata = []
-		rand = []
-		for i in range(question_num):
-			rand.append(i)
-		for i in range(question_num):
-			temp1 = random.randint(0,question_num-1)
-			temp2 = random.randint(0,question_num-1)
-			c = rand[temp1]
-			rand[temp1] = rand[temp2]
-			rand[temp2] = c
+		if not self.current_user:
+			self.redirect("/login")
+			return
+		else:
+			data = self.db.query(Questions).all()
+			question_num = len(data)
+			#数据要处理成随机的！
+			mydata = []
+			self.random = self.get_random(question_num)
+			for i in range(question_num):
+				mydata.append(data[self.random[i]])
+			# for item in data:
+			# 	print item.id
+			# print mydata
+			self.render('questions.html',data = mydata)
 
-		for i in range(question_num):
-			mydata.append(data[rand[i]])
-		# for item in data:
-		# 	print item.id
-		# print mydata
-		self.render('questions.html',data = mydata)
-
-	def post(self):
-		data = self.db.query(Questions).all()
-		question_num = len(data)
-		count = 0
-		user_answer={}
-		for i in range(1,question_num+1):
-			temp = self.get_argument(str(i),default=None)
-			print temp

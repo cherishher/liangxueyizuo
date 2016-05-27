@@ -16,6 +16,7 @@ from mod.db.db import engine
 from mod.login.handler import LoginHandler
 from mod.question.handler import QuestionHandler
 from mod.register.handler import RegisterHandler
+from mod.result.handler import ResultHandler
 
 
 define("port", default= 8170, help= "run on the given port", type=int)
@@ -26,6 +27,7 @@ class Application(tornado.web.Application):
 		    (r"/register",RegisterHandler),
 		    (r"/login",LoginHandler),
 			(r"/question",QuestionHandler),
+			(r"/result",ResultHandler)
 		]
 
 		settings = dict (

@@ -3,8 +3,9 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="../static/css/ionic.min.css">
-    <link rel="stylesheet" href="../static/css/jquery.mobile-1.4.2.min.css">
+    <link href="//cdn.bootcss.com/ionic/1.3.0/css/ionic.css" rel="stylesheet">
+    <script src="//cdn.bootcss.com/jquery/2.2.3/jquery.min.js"></script>
+    <link href="//cdn.bootcss.com/jquery-mobile/1.4.3/jquery.mobile.min.css" rel="stylesheet">
     <style>
     body
     {background-image:url('../static/images/7.jpg');
@@ -19,28 +20,86 @@
       <h1 class="title" style="font-size:large;font-family:微软雅黑">登录</h1>
       <button class="button" id="register" onclick="chg()">注册</button>
     </div>
-    
+<!--     
+            <div data-role="page">
+            <div data-role="header">
+                <h1>账号绑定</h1>
+            </div>
+            <div data-role="content" class="main_content">
+                <div data-role="fieldcontain">
+                    <div data-role="controlgroup" >
+                    <input type="text" id="number" placeholder="一卡通号" value="">
+                    <input type="password" id="password" placeholder="统一身份认证密码" value="">
+                    </div>
+                </div>
+                <div data-role="fieldcontain">
+                    <a data-role="button" data-transition="slide" id="bind_button" data-theme="b">绑定</a>
+                </div>
+            </div>
+        </div> -->
     <div class="content has-header">
       <div class="row" style="padding-top:60px"></div>
-      <form method="post" action="../login">
         <div class="list list-inset">
           <label class="item item-input">
-            <input type="text" name="studentnum" placeholder="用户名">
+            <input type="text" id="number" name="studentnum" placeholder="用户名（被注册的学号）">
           </label>
           <label class="item item-input">
-            <input type="password" name="password" placeholder="密码">
+            <input type="password" id="password" name="password" placeholder="密码">
           </label>
         </div>
+<!--                         <div data-role="fieldcontain">
+                    <a data-role="button" data-transition="slide" id="login" data-theme="b">绑定</a>
+                </div> -->
         <div class="padding">
-          <button class="button button-block button-positive" type="submit" style="position:absolate;border-radius:8px">立即登录</button>
+          <button class="button button-block button-positive" id="login" style="position:absolate;border-radius:8px">立即登录</button>
         </div>
-      </form>
       <div><p>123</p></div>
     </div>
   </body>
   <script type="text/javascript">
   function chg(){
-  window.location.href="../register";
+  window.location.href="/register";
   }
+  $("#login").click(function(){
+  $.post("/login",
+  {
+    studentnum:$("#number").val(),
+    password:$("#password").val()
+  },
+  function(data,status){
+    var retdata = JSON.parse(data);
+    if(retdata['code'] == 200){
+        window.location.href="/question";
+    }
+    else{
+      alert(retdata['text']);
+    }
+  });
+});
+  <!--// function ajax(){-->
+  <!--//           $.mobile.loading('show',{theme:"b",text:"正在操作...",textonly:true, textVisible: true});-->
+  <!--//           setTimeout(function(){-->
+  <!--//               $.ajax({-->
+  <!--//                   url:'/login',-->
+  <!--//                   type:'POST',-->
+  <!--//                   data:{-->
+  <!--//                       'studentnum':$('#number').val(),-->
+  <!--//                       'password':$('#password').val()-->
+  <!--//                   },-->
+  <!--//                   success:function(e){-->
+  <!--//                       $.mobile.loading('hide');-->
+  <!--//                       if(e =='success'){-->
+  <!--//                           $('.main_content').html('<div style="margin-top:20%"><center>登录成功</center></div>');-->
+  <!--//                       }-->
+  <!--//                       else{-->
+  <!--//                           alert(e);-->
+  <!--//                       }-->
+  <!--//                   },-->
+  <!--//                   error:function(e){-->
+  <!--//                       $.mobile.loading('hide');-->
+  <!--//                       alert('登录失败，请重新登陆');-->
+  <!--//                   }-->
+  <!--//               });-->
+  <!--//           },50);-->
   </script>
 </html>

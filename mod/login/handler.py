@@ -19,17 +19,28 @@ class LoginHandler(tornado.web.RequestHandler):
 		self.render('login.html')
 
 	def post(self):
+		#验证用户身份
 		try:
+			retjson={
+					'code':200,
+					'text':"登录成功"
+				}
 			flag = True
 			studentnum = self.get_argument('studentnum',default=None)
 			password = self.get_argument('password',default=None)
 
 			data = self.db.query(Member).filter(Member.studentnum == studentnum).one()
-			print data.password
 			if data.password == password:
-				self.write('登录成功！')
+				self.set_secure_cookie("user",studentnum)
 			else:
-				self.write('密码错误请重新输入密码')
+				retjson['code'] = 400
+				retjson['text'] = "密码错误，请重新登录"
 		except Exception,e:
-			self.write("该用户尚未注册，请注册后再登录")
+			print str(e)
+			retjson['code'] = 401
+			retjson['text'] = "该用户尚未注册，请注册后再登录"
+		self.write(json.dumps(retjson))
+
+
+
 
