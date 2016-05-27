@@ -80,7 +80,7 @@
           </label>
         </div>
         <div class="padding">
-          <button class="button button-block button-positive" type="submit" style="position:absolate;border-radius:8px">立即注册</button>
+          <button class="button button-block button-positive" type="submit" id="register" style="position:absolate;border-radius:8px">立即注册</button>
         </div>
       </div>
     <div><p>123</p></div>
@@ -88,9 +88,11 @@
     function chg(){
     window.location.href="../login";
     }
+      $("#register").click(function(){
   $.post("/register",
   {
     studentnum:$("#studentnum").val(),
+    name:$("#name").val(),
     password:$("#password").val(),
     repepassword:$("#repepassword").val(),
     phonenum:$("#phonenum").val(),

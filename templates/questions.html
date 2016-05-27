@@ -42,6 +42,60 @@
 					</div>
 				</div>
 			{% end %}
+<!--							 {% for item in data %} 
+				<div class="row" style="padding-top:5px"></div>
+				<div  class="list card">
+					<div class="item item-avatar" >
+						<image src="../static/images/8.jpg">
+						<h2 style="font-size:x-large">单选</h2>
+						<p id="{{item.id}}"></p>
+					</div>
+					<div class="item item-body">
+						<h2>{{item.question}}</h2>
+						<form action="/result" method="post" >
+							<label>
+								<input class="hidden-input" type="radio" name="{{item.id}}" value="A"><span></span>A.{{item.answer1}}<br>
+							</label>
+							<label>
+								<input class="hidden-input" type="radio" name="{{item.id}}" value="B"><span></span>B.{{item.answer1}}<br>
+							</label>
+							<label>
+								<input class="hidden-input" type="radio" name="{{item.id}}" value="C"><span></span>C.{{item.answer1}}<br>
+							</label>
+							<label>
+								<input class="hidden-input" type="radio" name="{{item.id}}" value="D"><span></span>D.{{item.answer1}}
+							</label>
+						</div>
+					</div>
+				</div>
+			{% end %}
+						{% for item in data %}
+				<div class="row" style="padding-top:5px"></div>
+				<div  class="list card">
+					<div class="item item-avatar" >
+						<image src="../static/images/8.jpg">
+						<h2 style="font-size:x-large">单选</h2>
+						<p id="{{item.id}}"></p>
+					</div>
+					<div class="item item-body">
+						<h2>{{item.question}}</h2>
+						<form action="/result" method="post" >
+							<label>
+								<input class="hidden-input" type="radio" name="{{item.id}}" value="A"><span></span>A.{{item.answer1}}<br>
+							</label>
+							<label>
+								<input class="hidden-input" type="radio" name="{{item.id}}" value="B"><span></span>B.{{item.answer1}}<br>
+							</label>
+							<label>
+								<input class="hidden-input" type="radio" name="{{item.id}}" value="C"><span></span>C.{{item.answer1}}<br>
+							</label>
+							<label>
+								<input class="hidden-input" type="radio" name="{{item.id}}" value="D"><span></span>D.{{item.answer1}}
+							</label>
+						</div>
+					</div>
+				</div>
+			{% end %}-->
 			<button class="button button-primary" type="submit">提交</button>
 		</form>
 	</body>

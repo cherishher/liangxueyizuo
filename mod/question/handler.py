@@ -23,13 +23,13 @@ class QuestionHandler(tornado.web.RequestHandler):
 	def on_finish(self):
 		self.db.close()
 
-	def get_random(self,len):
+	def get_random(self,first,len):
 			rand = []
-			for i in range(0,len):
+			for i in range(first,len):
 				rand.append(i)
-			for i in range(0,len):
-				temp1 = random.randint(0,len-1)
-				temp2 = random.randint(0,len-1)
+			for i in range(first,len):
+				temp1 = random.randint(first,len-1)
+				temp2 = random.randint(first,len-1)
 				c = rand[temp1]
 				rand[temp1] = rand[temp2]
 				rand[temp2] = c
@@ -41,13 +41,20 @@ class QuestionHandler(tornado.web.RequestHandler):
 			self.redirect("/login")
 			return
 		else:
-			data = self.db.query(Questions).all()
-			question_num = len(data)
+			data1 = self.db.query(Questions).filter(Questions.type == 1).all()
+			data2 = self.db.query(Questions).filter(Questions.type == 2).all()
+			data3 = self.db.query(Questions).filter(Questions.type == 3).all()
+			question_num = len(data1)
+			first = 0
 			#数据要处理成随机的！
 			mydata = []
-			self.random = self.get_random(question_num)
+			self.random = self.get_random(first,question_num)
 			for i in range(question_num):
-				mydata.append(data[self.random[i]])
+				mydata.append(data1[self.random[i]])
+			for i in range(question_num):
+				mydata.append(data2[self.random[i]])
+			for i in range(question_num):
+				mydata.append(data3[self.random[i]])
 			# for item in data:
 			# 	print item.id
 			# print mydata

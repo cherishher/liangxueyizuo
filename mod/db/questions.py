@@ -11,6 +11,7 @@ Base = declarative_base()
 class Questions(Base):
     __tablename__ = 'questions'
     id = Column(Integer, primary_key=True)
+    type = Column(Integer,nullable=False)
     question = Column(String(4096), nullable=False)
     answer1 = Column(String(4096),nullable=False)
     answer2 = Column(String(64), nullable=False)
