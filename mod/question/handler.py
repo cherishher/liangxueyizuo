@@ -62,7 +62,7 @@ class QuestionHandler(tornado.web.RequestHandler):
 				mydata = []
 				myanswer = []
 				self.random1 = self.get_random(first,question_num)
-				for i in range(question_num):
+				for i in range(0,10):
 					temp = {
 						'id':i,
 						'question':data[self.random1[i]].question,
