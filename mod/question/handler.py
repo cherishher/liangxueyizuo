@@ -2,12 +2,18 @@
 # @Date    : 2016/5/22  16:57
 # @Author  : 490949611@qq.com
 from mod.db.member import Member
+
 import tornado.web
 import Cookie
+from sqlalchemy.orm.exc import NoResultFound
 from ..db.questions import Questions
 from ..db.user_answer import Answer
+from ..db.answer_cache import Answer_cache
+from config import *
 import datetime
 import random
+
+4+6
 import json,urllib
 from tornado.httpclient import HTTPRequest,HTTPClient
 
@@ -49,26 +55,56 @@ class QuestionHandler(tornado.web.RequestHandler):
 				self.redirect("/result")
 				return
 			except Exception,e:
-				data1 = self.db.query(Questions).filter(Questions.type == 1).all()
-				data2 = self.db.query(Questions).filter(Questions.type == 2).all()
-				data3 = self.db.query(Questions).filter(Questions.type == 3).all()
-				question_num1 = len(data1)
-				question_num2 = len(data2)
-				question_num3 = len(data3)
+				data = self.db.query(Questions).all()
 				first = 0
+				question_num = len(data)
 				#数据要处理成随机的！
 				mydata = []
-				self.random1 = self.get_random(first,question_num1)
-				self.random2 = self.get_random(first,question_num2)
-				self.random3 = self.get_random(first,question_num3)
-				for i in range(question_num1):
-					mydata.append(data1[self.random1[i]])
-				for i in range(question_num2):
-					mydata.append(data2[self.random2[i]])
-				for i in range(question_num3):
-					mydata.append(data3[self.random3[i]])
-				# for item in data:
-				# 	print item.id
-				# print mydata
+				myanswer = []
+				self.random1 = self.get_random(first,question_num)
+				for i in range(question_num):
+					temp = {
+						'id':i,
+						'question':data[self.random1[i]].question,
+						'answer1':data[self.random1[i]].answer1,
+						'answer2':data[self.random1[i]].answer2,
+						'answer3':data[self.random1[i]].answer3,
+						'answer4':data[self.random1[i]].answer4
+					}
+					mydata.append(temp)
+					myanswer.append(data[self.random1[i]].answer)
+				print mydata
+				sqlanswer = json.dumps(myanswer)
+				try:
+					result = self.db.query(Answer_cache).filter(Answer_cache.studentnum==self.current_user).one()
+					result.answer = sqlanswer
+				except NoResultFound:
+					cache = Answer_cache(studentnum=self.current_user,answer=sqlanswer)
+					self.db.add(cache)
+				self.db.commit()
 				self.render('questions.html',data = mydata)
+
+	def post(self):
+		retjson = {
+			'code':200,
+			'text':u'答题正常'
+		}
+		# start_time = self.get_argument('start_time',default=0)
+		now_time = self.get_argument('now_time',default=0)
+		print 'now_time',now_time
+		if now_time:
+			if int(now_time) == 50:
+				retjson['code'] = 300
+				retjson['text'] = u'剩余答题时间只有10分钟，请尽快答题'
+			if int(now_time) >= 60:
+				retjson['code'] = 400
+				retjson['text'] = u'答题时间结束，将自动提交当前答案'
+		self.write(json.dumps(retjson))
+		# time = self.get_argument('time')#向数据库保存当前时间
+		# totaltime = 0
+		# if time:
+		# 	totaltime += time
+		# user_answer = Answer(username = self.current_user,goal = 0,time = 0,type = ANSWER_TYPE)
+		# self.db.add(user_answer)
+		# self.db.commit()#数据库操作
 

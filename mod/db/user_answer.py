@@ -13,8 +13,7 @@ class Answer(Base):
     id = Column(Integer, primary_key=True)
     username = Column(String(4096), nullable=False)
     goal = Column(Integer,nullable=False)
-    time = Column(String(64), nullable=False)
-    type = Column(Integer,nullable=False)
+    degree = Column(Integer,nullable=False)
 
 if __name__ == '__main__':
-	Base.metadata.create_all(engine)
+    Base.metadata.create_all(engine)

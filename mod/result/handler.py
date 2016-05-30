@@ -6,6 +6,7 @@ from mod.db.member import Member
 import tornado.web
 from ..db.questions import Questions
 from ..db.user_answer import Answer
+from ..db.answer_cache import Answer_cache
 from config import *
 import datetime
 import json,urllib
@@ -38,22 +39,24 @@ class ResultHandler(tornado.web.RequestHandler):
 			data = self.db.query(Questions).all()
 			question_num = len(data)
 			count = 0
-			user_answer={}
+			correct_answer=[]
+			answer_data = self.db.query(Answer_cache.answer).filter(Answer_cache.studentnum == self.current_user).one()
+			for item in json.loads(answer_data[0]):
+				correct_answer.append(item)
 			try:
-				for i in range(1,question_num+1):
+				for i in range(0,question_num):
 					temp = self.get_argument(str(i),default=None)
-					# qnum = self.random[i-1]
-					answer = self.db.query(Questions).filter(Questions.id == i).one()
-					print i," ",temp," ",answer.answer
-					if temp == answer.answer:
-						count += 1
+					print 'myanswer',temp,'correct',correct_answer[i]
+					if temp == correct_answer[i]:
+						count += 10
+				print 'count:',count
 			except Exception,e:
 				print str(e)
 				self.write(u"失败了。。。似乎发生了什么奇怪的事情呢！")
 			#保存成绩
 			try:
 				print u'保存失败？'
-				user_answer = Answer(username = self.current_user,goal = count,time = 0,type = ANSWER_TYPE)
+				user_answer = Answer(username = self.current_user,goal = count,degree = DEGREE)
 				self.db.add(user_answer)
 				self.db.commit()
 			except Exception,e:
@@ -66,7 +69,6 @@ class ResultHandler(tornado.web.RequestHandler):
 				'goal':count
 			}
 			self.render("succeed.html",data = data)
-			self.finish()
 
 
 
