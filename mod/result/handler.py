@@ -58,7 +58,6 @@ class ResultHandler(tornado.web.RequestHandler):
 					temp = self.get_argument(str(i),default=None)
 					if temp == correct_answer[i]:
 						count += 10
-					print 'i',i,'temp',temp,'answer',correct_answer[i]
 			except Exception,e:
 				print str(e)
 				self.write(u"失败了。。。似乎发生了什么奇怪的事情呢！")
