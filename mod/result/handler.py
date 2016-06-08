@@ -47,22 +47,23 @@ class ResultHandler(tornado.web.RequestHandler):
 			return
 		else:
 			data = self.db.query(Questions).all()
-			question_num = len(data)
+			question_num = 10
 			count = 0
 			correct_answer=[]
 			answer_data = self.db.query(Answer_cache.answer).filter(Answer_cache.studentnum == self.current_user).one()
 			for item in json.loads(answer_data[0]):
 				correct_answer.append(item)
 			try:
-				for i in range(0,10):
+				for i in range(0,question_num):
 					temp = self.get_argument(str(i),default=None)
 					if temp == correct_answer[i]:
 						count += 10
+					print 'i',i,'temp',temp,'answer',correct_answer[i]
 			except Exception,e:
 				print str(e)
 				self.write(u"失败了。。。似乎发生了什么奇怪的事情呢！")
-			#保存成绩
 
+			#保存成绩
 			try:
 				answer = self.db.query(Answer).filter(Answer.username == self.current_user).one()
 				restchance = answer.chance
@@ -90,7 +91,11 @@ class ResultHandler(tornado.web.RequestHandler):
 					self.db.add(user_answer)
 					self.db.commit()
 				except Exception,e:
+					print str(e)
 					self.write(u"提交失败了T_T,重新提交一次呗")
+
+			except Exception,e:
+				print str(e)
 
 			#成绩界面
 			data = {
@@ -98,6 +103,7 @@ class ResultHandler(tornado.web.RequestHandler):
 				'goal':count
 			}
 			self.render("succeed.html",data = data)
+
 
 
 

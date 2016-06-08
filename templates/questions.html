@@ -5,8 +5,6 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		<link href="//cdn.bootcss.com/ionic/1.3.0/css/ionic.css" rel="stylesheet">
 		<script src="//cdn.bootcss.com/jquery/2.2.3/jquery.min.js"></script>
-		<link href="//cdn.bootcss.com/jquery-mobile/1.4.3/jquery.mobile.min.css" rel="stylesheet">
-		<script src="http://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="../static/css/question.css">
 		<title>答题界面</title>
 	</head>
@@ -17,7 +15,6 @@
 		<div class="content has-header">
 			{% for item in data %}
 				<div class="row" style="padding-top:5px"></div>
-				<div data-role="main" class="ui-content">
 				<div  class="list card">
 					<div class="item item-avatar" >
 						<image src="../static/images/8.jpg">
@@ -26,51 +23,55 @@
 					<div class="item item-body">
 						<h2>{{item['question']}}</h2>
 						<form action="/result" method="post" id="myForm">
-							<label>
-								<input type="radio" name="{{item['id']}}" value="A">A.{{item['answer1']}}<br>
+							<label style="font-size: 16px">
+								<input type="radio"  name="{{item['id']}}" value="A">A.{{item['answer1']}}<br>
 							</label>
-							<label>
+							<label style="font-size: 16px">
 								<input type="radio" name="{{item['id']}}" value="B">B.{{item['answer2']}}<br>
 							</label>
-							<label><input type="radio" name="{{item['id']}}" value="C">C.{{item['answer3']}}<br></label>
-							<label><input type="radio" name="{{item['id']}}" value="D">D.{{item['answer4']}}</label>
-						</div>
+							<label style="font-size: 16px">
+								<input type="radio" name="{{item['id']}}" value="C">C.{{item['answer3']}}<br>
+							</label>
+							<label style="font-size: 16px">
+								<input type="radio" name="{{item['id']}}" value="D">D.{{item['answer4']}}
+							</label>
 					</div>
 				</div>
-				{% end %}
-				<button class="button button-block button-stable" type="submit" id="submit_btn">提交</button>
-			</form>
-		</body>
-		<script type="text/javascript">
-					var now_time = 0;
-				window.setInterval(function(){
-					now_time += 5;
-					$.post("/question",
-						{
-							now_time:now_time
-						},function(data,status){
-							var retdata = JSON.parse(data);
-							if(retdata['code'] == 300){
-								alert(retdata['text']);
+					{% end %}
+					<button class="button button-block button-stable" type="submit" id="submit_btn">提交</button>
+					<p>123</p>
+				</form>
+			</body>
+			<script type="text/javascript">
+						var now_time = 0;
+					window.setInterval(function(){
+						now_time += 5;
+						$.post("/question",
+							{
+								now_time:now_time
+							},function(data,status){
+								var retdata = JSON.parse(data);
+								if(retdata['code'] == 300){
+									alert(retdata['text']);
+								}
+								else if(retdata['code'] == 400){
+									alert(retdata['text']);
+									$("#myForm").submit();
+								}
 							}
-							else if(retdata['code'] == 400){
-								alert(retdata['text']);
-															$("#myForm").submit();
-							}
-						}
-						)
-				},300000);
-											// 			window.onunload=function confirm_quit()
-											// 			{
-		// <!--var r = confirm("您尚未完成答题，未提交的进度不会被保存\n是否确认退出？")；-->
-		// <!--if (r == true){-->
-		// $.post("/question",
-		// {
-		// data:"quit"
-		// }
-		// )
-		// <!--}  //关闭当前答题页面，返回已消耗的时间-->
-		// <!--else {} //  放弃退出-->
-		// }
-		</script>
-	</html>
+							)
+					},300000);
+																		// 			window.onunload=function confirm_quit()
+																		// 			{
+			// <!--var r = confirm("您尚未完成答题，未提交的进度不会被保存\n是否确认退出？")；-->
+			// <!--if (r == true){-->
+			// $.post("/question",
+			// {
+			// data:"quit"
+			// }
+			// )
+			// <!--}  //关闭当前答题页面，返回已消耗的时间-->
+			// <!--else {} //  放弃退出-->
+			// }
+			</script>
+		</html>
