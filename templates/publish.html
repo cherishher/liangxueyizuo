@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>“两学一做”学习资料发布平台</title>	
+    <link href="//cdn.bootcss.com/ionic/1.3.0/css/ionic.css" rel="stylesheet">
+    <script src="//cdn.bootcss.com/jquery/2.2.3/jquery.min.js"></script>
+    <link href="//cdn.bootcss.com/jquery-mobile/1.4.3/jquery.mobile.min.css" rel="stylesheet">
+</head>
+<body>
+  <ul class="list">
+        {% for item in data %}
+    <li class="item" id="{{item.id}}">
+        <a href={{item.url}}>{{item.title}}</a>
+        <button class="delete button button-positive"  style="float: right">删除</button>
+    </li>
+        {% end %}
+</ul>
+
+	<div class="list">
+  <label class="item item-input">
+    <input type="text" id="title" placeholder="文章标题">
+  </label>
+  <label class="item item-input">
+    <input type="text" id="url" placeholder="文章url">
+  </label>
+    <label class="item item-input">
+    <input type="text" id="author" placeholder="作者">
+  </label>
+  <button class="button button-block button-positive" id="publish" style="position:absolate;border-radius:8px">发布</button>
+</div>
+</body>
+<script>
+    $("#publish").click(function(){
+  $.post("/publish",
+  {
+    title:$("#title").val(),
+    url:$("#url").val(),
+    author:$("#author").val(),
+    dlt:0
+  },
+  function(data,status){
+    var retdata = JSON.parse(data);
+      alert(retdata['content']);
+  });
+});
+        $(".delete").click(function(){
+  $.post("/publish",
+  {
+    id:$(".delete").parent().attr("id"),
+    dlt:1
+  },
+  function(data,status){
+    var retdata = JSON.parse(data);
+      alert(retdata['content']);
+  });
+});
+</script>
+</html>

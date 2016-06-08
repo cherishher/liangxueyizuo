@@ -50,11 +50,21 @@ class QuestionHandler(tornado.web.RequestHandler):
 			self.redirect("/login")
 			return
 		else:
+			flag = True
+			restchance = 3
 			try:
 				answer = self.db.query(Answer).filter(Answer.username == self.current_user).one()
-				self.redirect("/result")
-				return
-			except Exception,e:
+				restchance = answer.chance
+				if restchance <= 0:
+					self.redirect("/result")
+					return
+				else:
+					self.showquestion()
+			except NoResultFound:
+				self.showquestion()
+
+
+	def showquestion(self):
 				data = self.db.query(Questions).all()
 				first = 0
 				question_num = len(data)

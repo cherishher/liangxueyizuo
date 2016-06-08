@@ -17,6 +17,8 @@ from mod.login.handler import LoginHandler
 from mod.question.handler import QuestionHandler
 from mod.register.handler import RegisterHandler
 from mod.result.handler import ResultHandler
+from mod.study.handler import StudyHandler
+from mod.publish.handler import PublishHandler
 
 
 define("port", default= 8170, help= "run on the given port", type=int)
@@ -28,6 +30,8 @@ class Application(tornado.web.Application):
 		    (r"/login",LoginHandler),
 			(r"/question",QuestionHandler),
 			(r"/result",ResultHandler)
+			# (r'/study',StudyHandler),
+			# (r'/publish',PublishHandler)
 		]
 
 		settings = dict (

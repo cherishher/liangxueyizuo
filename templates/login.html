@@ -41,7 +41,7 @@
       <div class="row" style="padding-top:60px"></div>
         <div class="list list-inset">
           <label class="item item-input">
-            <input type="text" id="number" name="studentnum" placeholder="用户名（被注册的学号）">
+            <input type="text" id="number" name="studentnum" placeholder="学号">
           </label>
           <label class="item item-input">
             <input type="password" id="password" name="password" placeholder="密码">
@@ -70,6 +70,10 @@
     var retdata = JSON.parse(data);
     if(retdata['code'] == 200){
         window.location.href="/question";
+    }
+    else if(retdata['code'] == 000000){
+      window.location.href="/publish";
+      alert(retdata['text']);
     }
     else{
       alert(retdata['text']);

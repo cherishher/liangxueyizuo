@@ -17,28 +17,24 @@
     <div style="text-align:center;margin-top: 30px">
       <i class="icon ion-checkmark-circled" style="color:#00CC00;font-size: 100px;margin-left: center"></i>
     </div>
-    <p style="text-align:center;font-size: 20px">答题成功！</p>
+    <p style="text-align:center;font-size: 20px">答题已完成！</p>
     <div style="font-size: 14px;text-align: center;color:#000000">
       <p>学号:{{data['userid']}}</p>
-      <p>成绩:{{data['goal']}}</p>
+      <p>最终成绩:{{data['goal']}}</p>
+      <button class="button button-block button-positive" id="continue_feedback" style="border-radius:10px">切换用户</button>
+      <!-- <button class="button button-block button-positive" id="feedback_details"  style="border-radius:10px">关闭页面</button> -->
     </div>
-    <button class="button button-block button-positive" id="continue_feedback" style="border-radius:10px">切换用户</button>
-    <button class="button button-block button-positive" id="feedback_details"  style="border-radius:10px">再答一次</button>
+    <script type="text/javascript" src="{{ static_url('js/jquery.min.js') }}"></script>
+    <script type="text/javascript">
+    jQuery(document).ready(function($){
+    $("#continue_feedback").click(function(event){
+    window.location.href="../login";
+    });
+    $("#feedback_details").click(function(event){
+    this.window.opener = null;
+    window.close();
+    });
+    });
+    </script>
   </div>
-  <div style="font-size: 12px;float: right">
-    <p>注意:每人只有三次答题机会，请珍惜！</p>
-  </div>
-  <script type="text/javascript" src="{{ static_url('js/jquery.min.js') }}"></script>
-  <script type="text/javascript">
-  jQuery(document).ready(function($){
-  $("#continue_feedback").click(function(event){
-  window.location.href="../login";
-  });
-  $("#feedback_details").click(function(event){
-  window.location.href="../question";
-  });
-  });
-  </script>
-</div>
 </body>
-</html>

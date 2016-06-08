@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Date    : 2016/5/22  16:57
 # @Author  : 490949611@qq.com
+from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy import update
 
 from mod.db.member import Member
 import tornado.web
@@ -28,8 +30,16 @@ class ResultHandler(tornado.web.RequestHandler):
 			self.redirect("/login")
 			return
 		else:
-			self.write("亲~好像还没登录或者已经做过题了吧！")
-
+			#成绩界面
+			try:
+				answer = self.db.query(Answer).filter(Answer.username == self.current_user).one()
+				data = {
+					'userid':answer.username,
+					'goal':answer.goal
+				}
+				self.render("last_succeed.html",data = data)
+			except Exception,e:
+				print str(e)
 
 	def post(self):
 		if not self.current_user:
@@ -44,24 +54,43 @@ class ResultHandler(tornado.web.RequestHandler):
 			for item in json.loads(answer_data[0]):
 				correct_answer.append(item)
 			try:
-				for i in range(0,question_num):
+				for i in range(0,10):
 					temp = self.get_argument(str(i),default=None)
-					print 'myanswer',temp,'correct',correct_answer[i]
 					if temp == correct_answer[i]:
 						count += 10
-				print 'count:',count
 			except Exception,e:
 				print str(e)
 				self.write(u"失败了。。。似乎发生了什么奇怪的事情呢！")
 			#保存成绩
+
 			try:
-				print u'保存失败？'
-				user_answer = Answer(username = self.current_user,goal = count,degree = DEGREE)
-				self.db.add(user_answer)
-				self.db.commit()
-			except Exception,e:
-				print u'保存失败！'
-				self.write(u"提交失败了T_T,重新提交一次呗")
+				answer = self.db.query(Answer).filter(Answer.username == self.current_user).one()
+				restchance = answer.chance
+				if restchance < 0:
+					self.redirect("/result")
+					return
+				else:
+					if answer.goal < count:
+						try:
+							answer.goal = count
+							answer.chance = restchance-1
+							self.db.commit()
+						except Exception,e:
+							print str(e)
+					else:
+						try:
+							answer.chance = restchance-1
+							self.db.commit()
+						except Exception,e:
+							print str(e)
+
+			except NoResultFound:
+				try:
+					user_answer = Answer(username = self.current_user,goal = count,degree = DEGREE)
+					self.db.add(user_answer)
+					self.db.commit()
+				except Exception,e:
+					self.write(u"提交失败了T_T,重新提交一次呗")
 
 			#成绩界面
 			data = {

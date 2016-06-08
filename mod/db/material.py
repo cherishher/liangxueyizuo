@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-# @Date    : 2016/5/24  19:56
+# @Date    : 2016/6/3  10:32
 # @Author  : 490949611@qq.com
+
 from sqlalchemy import Column, String, Integer
 from sqlalchemy.ext.declarative import declarative_base
 from db import engine
@@ -8,13 +9,12 @@ from db import engine
 
 Base = declarative_base()
 
-class Answer(Base):
-    __tablename__ = 'answer_situation'
+class Material(Base):
+    __tablename__ = 'material'
     id = Column(Integer, primary_key=True)
-    username = Column(String(4096), nullable=False)
-    goal = Column(Integer,nullable=False)
-    chance = Column(Integer,default=2)
-    degree = Column(Integer,nullable=False)
+    title = Column(String(4096), nullable=False)
+    url = Column(String(4096),nullable=False)
+    author = Column(String(64), nullable=False)
 
 if __name__ == '__main__':
     Base.metadata.create_all(engine)

@@ -2,6 +2,7 @@
 # @Date    : 2016/5/22  16:57
 # @Author  : 490949611@qq.com
 from mod.db.member import Member
+from mod.db.ALL_Members import AllMembers
 import tornado.web
 import datetime
 import json,urllib
@@ -51,19 +52,17 @@ class RegisterHandler(tornado.web.RequestHandler):
 				rejson['code'] = 405
 				flag = False
 		except Exception,e:
-			pass
-		# typedef = {
-		# 	0:nothing(self,studentnum),
-		# 	1:nothing(self,name),
-		# 	2:nothing(self,password),
-		# 	3:repassword(self,password,repepassword),
-		# 	4:nothing(self,phonenum),
-		# 	5:nothing(self,college),
-		# 	6:nothing(self,branch)
-		# }
+			rejson['text'] = u"似乎后台出了什么问题，待会再来试试吧"
+
+		try:
+			data = self.db.query(AllMembers).filter(AllMembers.studentnum == studentnum and AllMembers.name == name).one()
+		except Exception,e:
+			rejson['code'] = 406
+			rejson['text'] = u'没有找到您的个人信息，您可能没有权限参加本次活动'
+			flag = False
+
 		if flag:
 			try:
-				print name
 				new_user = Member(studentnum= studentnum,password=password,name=name,phonenum=phonenum,college=college,branch=branch)
 				self.db.add(new_user)
 				self.db.commit()

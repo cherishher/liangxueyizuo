@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>“两学一做”学习平台</title>
+    <link href="//cdn.bootcss.com/ionic/1.3.0/css/ionic.css" rel="stylesheet">
+    <script src="//cdn.bootcss.com/jquery/2.2.3/jquery.min.js"></script>
+    <link href="//cdn.bootcss.com/jquery-mobile/1.4.3/jquery.mobile.min.css" rel="stylesheet">
+</head>
+<body>
+	<ul class="list">
+        {% for item in data %}
+    <li class="item">
+        <a href={{item.url}}>{{item.title}}</a>
+    </li>
+        {% end %}
+</ul>
+</body>
+</html>

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #coding:utf-8
 # @Date    : 2015-12-8 12:46:36
-# @Author  : jerry.liangj@qq.com
+# @Author  : 490949611@qq.com
 
 DB_HOST = '127.0.0.1'
 DB_USER = 'root'

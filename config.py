@@ -3,3 +3,5 @@
 # @Author  : 490949611@qq.com
 
 DEGREE = 1
+ADMIN_STUDENTNUM = 'root'
+ADMIN_PASSWORD = 'CommunistParty'
