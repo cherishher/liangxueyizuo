@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # @Date    : 2016/5/22  16:57
 # @Author  : 490949611@qq.com
+from sqlalchemy.orm.exc import NoResultFound
 from mod.db.member import Member
 from mod.db.ALL_Members import AllMembers
 import tornado.web
@@ -33,6 +34,7 @@ class RegisterHandler(tornado.web.RequestHandler):
 		phonenum = self.get_argument('phonenum',default=None)
 		college = self.get_argument("college",default=None)
 		branch = self.get_argument("branch",default=None)
+		print 'studentnum',studentnum
 		if (len(name) == 0) or (len(name) == 0) or (len(password) == 0) or (len(college) == 0) or (len(branch) == 0):
 			rejson['text'] = u"缺少必要信息！请重新填写"
 			rejson['code'] = 401
@@ -45,18 +47,19 @@ class RegisterHandler(tornado.web.RequestHandler):
 			rejson['text'] = u"两次密码输入不一致，请重新填写"
 			rejson['code'] = 403
 			flag = False
-		try:
-			data = self.db.query(Member).filter(Member.studentnum == studentnum).one()
-			if data:
-				rejson['text'] = u"该学号已被注册，请重新填写"
-				rejson['code'] = 405
-				flag = False
-		except Exception,e:
-			rejson['text'] = u"似乎后台出了什么问题，待会再来试试吧"
+		if flag:
+			try:
+				data = self.db.query(Member).filter(Member.studentnum == studentnum).one()
+				if data:
+					rejson['text'] = u"该学号已被注册，请重新填写"
+					rejson['code'] = 405
+					flag = False
+			except Exception,e:
+				rejson['text'] = u"似乎后台出了什么问题，待会再来试试吧"
 
 		try:
-			data = self.db.query(AllMembers).filter(AllMembers.studentnum == studentnum and AllMembers.name == name).one()
-		except Exception,e:
+			data = self.db.query(AllMembers).filter(AllMembers.studentnum == studentnum,AllMembers.name == name,AllMembers.college == college).one()
+		except NoResultFound:
 			rejson['code'] = 406
 			rejson['text'] = u'没有找到您的个人信息，您可能没有权限参加本次活动'
 			flag = False

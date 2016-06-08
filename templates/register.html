@@ -24,16 +24,16 @@
       <div class="row" style="padding-top:60px"></div>
       <div class="list list-inset">
   <label class="item item-input">
-    <span class="input-label" id="studentnum">学号</span>
-    <input type="text">
+    <span class="input-label" >学号</span>
+    <input type="text" id="studentnum">
   </label>
     <label class="item item-input">
-    <span class="input-label" id="name">姓名</span>
-    <input type="text">
+    <span class="input-label">姓名</span>
+    <input type="text"  id="name">
   </label>
     <label class="item item-input">
-    <span class="input-label" id="phonenum">手机号</span>
-    <input type="text">
+    <span class="input-label">手机号</span>
+    <input type="text"  id="phonenum">
   </label>
         <!--         <label class="item item-input">
           <i class="icon ion-ios-home placeholder-icon"></i> -->
@@ -520,12 +520,12 @@
       </select>
               </label>
     <label class="item item-input">
-    <span class="input-label" id="phonenum">密码</span>
-    <input type="text">
+    <span class="input-label">密码</span>
+    <input type="password"  id="password">
   </label>
     <label class="item item-input">
-    <span class="input-label" id="phonenum">确认密码</span>
-    <input type="text">
+    <span class="input-label" >确认密码</span>
+    <input type="password" id="repepassword">
   </label>
             </div>
             <div class="padding">
@@ -546,7 +546,7 @@
           repepassword:$("#repepassword").val(),
           phonenum:$("#phonenum").val(),
           college:$("#college").val(),
-          branch:$(".branch").val(),
+          branch:$(".branch").val()
           },
           function(data,status){
           var retdata = JSON.parse(data);
