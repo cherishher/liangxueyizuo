@@ -34,17 +34,20 @@ class LoginHandler(tornado.web.RequestHandler):
 		try:
 			data = self.db.query(Member).filter(Member.studentnum == studentnum).one()
 			if data.password == password:
-				self.set_secure_cookie("user",studentnum)
+				self.set_secure_cookie("user",studentnum,expires_days=2)
 				if studentnum == ADMIN_STUDENTNUM:
 					retjson['code'] = 000000
 					retjson['text'] = u'欢迎您，管理员！'
 			else:
 				retjson['code'] = 400
 				retjson['text'] = "密码错误，请重新登录"
+		except NoResultFound:
+			retjson['code'] = 401
+			retjson['text'] = "该用户尚未注册，请注册后再登录"
 		except Exception,e:
 			print str(e)
 			retjson['code'] = 401
-			retjson['text'] = "该用户尚未注册，请注册后再登录"
+			retjson['text'] = "登录失败请重试"
 		try:
 			answer = self.db.query(Answer).filter(Answer.username == studentnum).one()
 			goal = answer.goal

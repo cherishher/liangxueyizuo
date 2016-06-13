@@ -35,46 +35,35 @@
 							<label style="font-size: 16px">
 								<input type="radio" name="{{item['id']}}" value="D">D.{{item['answer4']}}
 							</label>
+						</div>
 					</div>
+				{% end %}
+				<button class="button button-block button-stable" type="submit" id="submit_btn">提交</button>
+				<div class="bar bar-footer bar-light">
+					<div class="title">©&nbsp;止于至善&nbsp;&nbsp;版权所有</div>
 				</div>
-					{% end %}
-					<button class="button button-block button-stable" type="submit" id="submit_btn">提交</button>
-					        <div class="bar bar-footer bar-light">
-  <div class="title">©&nbsp;止于至善&nbsp;&nbsp;版权所有</div>
-</div>
-					<p>123</p>
-				</form>
-			</body>
-			<script type="text/javascript">
-						var now_time = 0;
-					window.setInterval(function(){
-						now_time += 5;
-						$.post("/question",
-							{
-								now_time:now_time
-							},function(data,status){
-								var retdata = JSON.parse(data);
-								if(retdata['code'] == 300){
-									alert(retdata['text']);
-								}
-								else if(retdata['code'] == 400){
-									alert(retdata['text']);
-									$("#myForm").submit();
-								}
+				<p>123</p>
+			</form>
+		</body>
+		<script type="text/javascript">
+		alert("欢迎参与答题。本次答题限时30分钟，每人共有三次答题机会，计时开始");
+					var now_time = 0;
+				window.setInterval(function(){
+					now_time += 5;
+					$.post("/question",
+						{
+							now_time:now_time
+						},function(data,status){
+							var retdata = JSON.parse(data);
+							if(retdata['code'] == 300){
+								alert(retdata['text']);
 							}
-							)
-					},300000);
-																		// 			window.onunload=function confirm_quit()
-																		// 			{
-			// <!--var r = confirm("您尚未完成答题，未提交的进度不会被保存\n是否确认退出？")；-->
-			// <!--if (r == true){-->
-			// $.post("/question",
-			// {
-			// data:"quit"
-			// }
-			// )
-			// <!--}  //关闭当前答题页面，返回已消耗的时间-->
-			// <!--else {} //  放弃退出-->
-			// }
-			</script>
-		</html>
+							else if(retdata['code'] == 400){
+								alert(retdata['text']);
+								$("#myForm").submit();
+							}
+						}
+						)
+				},300000);
+		</script>
+	</html>

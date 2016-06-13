@@ -52,6 +52,9 @@ class QuestionHandler(tornado.web.RequestHandler):
 		else:
 			flag = True
 			restchance = 3
+			retjson = {
+				'content':u''
+			}
 			try:
 				answer = self.db.query(Answer).filter(Answer.username == self.current_user).one()
 				restchance = answer.chance
@@ -96,16 +99,16 @@ class QuestionHandler(tornado.web.RequestHandler):
 	def post(self):
 		retjson = {
 			'code':200,
-			'text':u'答题正常'
+			'text':u'欢迎参与答题。本次答题限时30分钟，每人共有三次答题机会，计时开始'
 		}
 		# start_time = self.get_argument('start_time',default=0)
 		now_time = self.get_argument('now_time',default=0)
 		print 'now_time',now_time
 		if now_time:
-			if int(now_time) == 50:
+			if int(now_time) == 25:
 				retjson['code'] = 300
-				retjson['text'] = u'剩余答题时间只有10分钟，请尽快答题'
-			if int(now_time) >= 60:
+				retjson['text'] = u'剩余答题时间只有5分钟，请尽快答题'
+			if int(now_time) >= 30:
 				retjson['code'] = 400
 				retjson['text'] = u'答题时间结束，将自动提交当前答案'
 		self.write(json.dumps(retjson))
