@@ -58,7 +58,7 @@ class RegisterHandler(tornado.web.RequestHandler):
 				rejson['text'] = u"似乎后台出了什么问题，待会再来试试吧"
 
 		try:
-			data = self.db.query(AllMembers).filter(AllMembers.studentnum == studentnum,AllMembers.name == name,AllMembers.college == college).one()
+			data = self.db.query(AllMembers).filter(AllMembers.studentnum == studentnum,AllMembers.name == name).one()
 		except NoResultFound:
 			rejson['code'] = 406
 			rejson['text'] = u'没有找到您的个人信息，您可能没有权限参加本次活动'
