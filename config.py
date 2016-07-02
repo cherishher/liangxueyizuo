@@ -4,4 +4,4 @@
 
 DEGREE = 1
 ADMIN_STUDENTNUM = 'root'
-ADMIN_PASSWORD = 'CommunistParty'
+ADMIN_PASSWORD = 'admin'

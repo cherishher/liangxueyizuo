@@ -1,19 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>“两学一做”学习平台</title>
-    <link href="//cdn.bootcss.com/ionic/1.3.0/css/ionic.css" rel="stylesheet">
-    <script src="//cdn.bootcss.com/jquery/2.2.3/jquery.min.js"></script>
-    <link href="//cdn.bootcss.com/jquery-mobile/1.4.3/jquery.mobile.min.css" rel="stylesheet">
-</head>
-<body>
-	<ul class="list">
-        {% for item in data %}
-    <li class="item">
-        <a href={{item.url}}>{{item.title}}</a>
-    </li>
-        {% end %}
-</ul>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>“两学一做”学习资料</title>
+        <link href="//cdn.bootcss.com/ionic/1.3.0/css/ionic.css" rel="stylesheet">
+        <script src="//cdn.bootcss.com/jquery/2.2.3/jquery.min.js"></script>
+        <link href="//cdn.bootcss.com/jquery-mobile/1.4.3/jquery.mobile.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="bar bar-header bar-positive">
+            <h1 class="title" style="font-size:large;font-family:微软雅黑">"两学一做"学习平台</h1>
+        </div>
+        <ul class="list has-header">
+            {% for item in data %}
+                <a class="item item-avatar" href="{{item.url}}">
+                    <img src="../static/images/9.jpg">
+                    <h2>{{item.title}}</h2>
+                    <p>作者:{{item.author}}</p>
+                </a>
+            {% end %}
+        </ul>
+    </body>
+    <p>123</p>
+    <div class="bar bar-footer bar-light">
+        <div class="title">©&nbsp;止于至善&nbsp;&nbsp;版权所有</div>
+    </div>
 </html>

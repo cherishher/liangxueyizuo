@@ -16,7 +16,7 @@ class PublishHandler(tornado.web.RequestHandler):
 		self.db.close()
 
 	def get_current_user(self):
-		return self.get_secure_cookie("user")
+		return self.get_secure_cookie("admin")
 
 	def get(self):
 		if self.current_user != ADMIN_STUDENTNUM:
@@ -37,11 +37,8 @@ class PublishHandler(tornado.web.RequestHandler):
 		id = self.get_argument('id',default=None)
 		delete = self.get_argument('dlt',default=0)
 
-
-		print "delete",delete,"id",id
 		if int(delete) == 1:
 			try:
-				print 'try to remove'
 				material = self.db.query(Material).filter(Material.id == id).one()
 				self.db.delete(material)
 				self.db.commit()

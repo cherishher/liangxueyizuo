@@ -29,9 +29,9 @@ class Application(tornado.web.Application):
 		    (r"/register",RegisterHandler),
 		    (r"/login",LoginHandler),
 			(r"/question",QuestionHandler),
-			(r"/result",ResultHandler)
-			# (r'/study',StudyHandler),
-			# (r'/publish',PublishHandler)
+			(r"/result",ResultHandler),
+			(r'/study',StudyHandler),
+			(r'/publish',PublishHandler)
 		]
 
 		settings = dict (
