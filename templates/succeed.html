@@ -22,20 +22,20 @@
       <p>学号:{{data['userid']}}</p>
       <p>成绩:{{data['goal']}}</p>
     </div>
-    <button class="button button-block button-positive" id="continue_feedback" style="border-radius:10px">切换用户</button>
+    <button class="button button-block button-positive" id="continue_feedback" style="border-radius:10px">查看错题</button>
     <button class="button button-block button-positive" id="feedback_details"  style="border-radius:10px">再答一次</button>
   </div>
   <div style="font-size: 12px;float: right">
     <p>注意:每人只有三次答题机会，请珍惜！</p>
   </div>
   <div class="bar bar-footer bar-light">
-    <div class="title">©&nbsp;止于至善&nbsp;&nbsp;版权所有</div>
+    <div class="title">&copy;止于至善&nbsp;版权所有</div>
   </div>
 </body>
 <script type="text/javascript">
 jQuery(document).ready(function($){
 $("#continue_feedback").click(function(event){
-window.location.href="../login";
+window.location.href="../review";
 });
 $("#feedback_details").click(function(event){
 window.location.href="../question";

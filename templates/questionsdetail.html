@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<link href="//cdn.bootcss.com/ionic/1.3.0/css/ionic.css" rel="stylesheet">
+		<script src="//cdn.bootcss.com/jquery/2.2.3/jquery.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../static/css/question.css">
+		<title>两学一做答题系统</title>
+	</head>
+	<body>
+		<div class="bar bar-header bar-positive">
+			<h1 class="title" style="font-size:large;font-family:微软雅黑">"两学一做"知识竞赛</h1>
+		</div>
+		<div class="content has-header">
+			{% for item in data %}
+				<div class="row" style="padding-top:5px"></div>
+				<div  class="list card">
+					<div class="item item-avatar" >
+						<image src="../static/images/8.jpg">
+						<h2 style="font-size:x-large">{{item['id']+1}}/10</h2>
+					</div>
+					<div class="item item-body">
+						<h2>{{item['question']}}</h2>
+						<label style="font-size: 16px">
+							<input type="radio"  name="{{item['id']}}" value="A">A.{{item['answer1']}}<br>
+						</label>
+						<label style="font-size: 16px">
+							<input type="radio" name="{{item['id']}}" value="B">B.{{item['answer2']}}<br>
+						</label>
+						<label style="font-size: 16px">
+							<input type="radio" name="{{item['id']}}" value="C">C.{{item['answer3']}}<br>
+						</label>
+						<label style="font-size: 16px">
+							<input type="radio" name="{{item['id']}}" value="D">D.{{item['answer4']}}
+						</label>
+						{% if item['state'] == 0 %}
+							<p style="background-color: #FF6666;color:#000000"> 您的答案错误，正确答案为：{{item['answer']}}</p>
+						{% else %}
+						<p style="background-color: #99FF66;color:#000000"> 您的答案为：{{item['answer']}}，正确</p>
+						{% end %}
+					</div>
+				</div>
+			{% end %}
+			<button class="button button-block button-stable" onclick="history.go(-1)">返回结果界面</button>
+			<div class="bar bar-footer bar-light">
+				<div class="title">©&nbsp;止于至善&nbsp;&nbsp;版权所有</div>
+			</div>
+			<p>123</p>
+		</body>
+	</html>

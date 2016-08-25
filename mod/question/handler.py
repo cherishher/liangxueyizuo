@@ -85,7 +85,10 @@ class QuestionHandler(tornado.web.RequestHandler):
 						'answer4':data[self.random1[i]].answer4
 					}
 					mydata.append(temp)
-					myanswer.append(data[self.random1[i]].answer)
+					item = {'id':'','answer':''}
+					item['id'] = (data[self.random1[i]].id)
+					item['answer'] = (data[self.random1[i]].answer)
+					myanswer.append(item)
 				sqlanswer = json.dumps(myanswer)
 				try:
 					result = self.db.query(Answer_cache).filter(Answer_cache.studentnum==self.current_user).one()

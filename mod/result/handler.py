@@ -12,6 +12,7 @@ from ..db.answer_cache import Answer_cache
 from config import *
 import datetime
 import json,urllib
+import traceback
 
 class ResultHandler(tornado.web.RequestHandler):
 
@@ -51,18 +52,25 @@ class ResultHandler(tornado.web.RequestHandler):
 			count = 0
 			correct_answer=[]
 			answer_data = self.db.query(Answer_cache.answer).filter(Answer_cache.studentnum == self.current_user).one()
-			for item in json.loads(answer_data[0]):
-				correct_answer.append(item)
+			user_answerCache = []
+			user_answer=''
+			for i in range(1,11):
+					temp2 = answer_data.answer.split('{')[i].split('}')[0].split('"')[3]
+					correct_answer.append(temp2)
 			try:
 				for i in range(0,question_num):
-					temp = self.get_argument(str(i),default=None)
+					temp = self.get_argument(str(i),default='blank')
+					print 'user answer:',temp
+					user_answerCache.append(temp)
 					if temp == correct_answer[i]:
 						count += 10
 			except Exception,e:
-				print str(e)
+				traceback.print_exc()
 				self.write(u"失败了。。。似乎发生了什么奇怪的事情呢！")
 
 			#保存成绩
+			for i in range(0,len(user_answerCache)):
+				user_answer += user_answerCache[i]+' '
 			try:
 				answer = self.db.query(Answer).filter(Answer.username == self.current_user).one()
 				restchance = answer.chance
@@ -70,6 +78,7 @@ class ResultHandler(tornado.web.RequestHandler):
 					self.redirect("/result")
 					return
 				else:
+					answer.answer = user_answer
 					if answer.goal < count:
 						try:
 							answer.goal = count
@@ -83,10 +92,9 @@ class ResultHandler(tornado.web.RequestHandler):
 							self.db.commit()
 						except Exception,e:
 							print str(e)
-
 			except NoResultFound:
 				try:
-					user_answer = Answer(username = self.current_user,goal = count,degree = DEGREE)
+					user_answer = Answer(username = self.current_user,goal = count,degree = DEGREE,answer = user_answer)
 					self.db.add(user_answer)
 					self.db.commit()
 				except Exception,e:
@@ -95,6 +103,8 @@ class ResultHandler(tornado.web.RequestHandler):
 
 			except Exception,e:
 				print str(e)
+
+
 
 			#成绩界面
 			data = {
