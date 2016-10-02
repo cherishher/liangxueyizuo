@@ -5,7 +5,7 @@
 
 DB_HOST = '127.0.0.1'
 DB_USER = 'root'
-DB_PWD = 'XXXXX'
+DB_PWD = 'qh129512'
 DB_NAME = 'partymem'
 
 from sqlalchemy import create_engine

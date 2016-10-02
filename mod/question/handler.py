@@ -59,7 +59,8 @@ class QuestionHandler(tornado.web.RequestHandler):
 				answer = self.db.query(Answer).filter(Answer.username == self.current_user).one()
 				restchance = answer.chance
 				if restchance <= 0:
-					self.redirect("/result")
+					url = "/result?userid=%s&goal=%s" % (answer.username,answer.goal)
+					self.redirect(url)
 					return
 				else:
 					self.showquestion()

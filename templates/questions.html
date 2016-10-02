@@ -3,8 +3,8 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
-		<link href="//cdn.bootcss.com/ionic/1.3.0/css/ionic.css" rel="stylesheet">
-		<script src="//cdn.bootcss.com/jquery/2.2.3/jquery.min.js"></script>
+		<link href="http://cdn.bootcss.com/ionic/1.3.0/css/ionic.css" rel="stylesheet">
+		<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="../static/css/question.css">
 		<title>两学一做答题系统</title>
 	</head>
@@ -20,50 +20,86 @@
 						<image src="../static/images/8.jpg">
 						<h2 style="font-size:x-large">{{item['id']+1}}/10</h2>
 					</div>
-					<div class="item item-body">
+					<div class="item item-body" id="item">
 						<h2>{{item['question']}}</h2>
-						<form action="/result" method="post" id="myForm">
-							<label style="font-size: 16px">
-								<input type="radio"  name="{{item['id']}}" value="A">A.{{item['answer1']}}<br>
-							</label>
-							<label style="font-size: 16px">
-								<input type="radio" name="{{item['id']}}" value="B">B.{{item['answer2']}}<br>
-							</label>
-							<label style="font-size: 16px">
-								<input type="radio" name="{{item['id']}}" value="C">C.{{item['answer3']}}<br>
-							</label>
-							<label style="font-size: 16px">
-								<input type="radio" name="{{item['id']}}" value="D">D.{{item['answer4']}}
-							</label>
-						</div>
+						<label  style="font-size: 16px">
+							<input type="radio"  name="{{item['id']}}" value="A">A.{{item['answer1']}}<br>
+						</label>
+						<label style="font-size: 16px">
+							<input type="radio" name="{{item['id']}}" value="B">B.{{item['answer2']}}<br>
+						</label>
+						<label style="font-size: 16px">
+							<input type="radio" name="{{item['id']}}" value="C">C.{{item['answer3']}}<br>
+						</label>
+						<label style="font-size: 16px">
+							<input type="radio" name="{{item['id']}}" value="D">D.{{item['answer4']}}
+						</label>
 					</div>
-				{% end %}
-				<button class="button button-block button-stable" type="submit" id="submit_btn">提交</button>
-				<div class="bar bar-footer bar-light">
-					<div class="title">©&nbsp;止于至善&nbsp;&nbsp;版权所有</div>
 				</div>
-				<p>123</p>
-			</form>
+			{% end %}
+			<button class="button button-block button-stable" id="submit_btn">提交</button>
+			<div class="bar bar-footer bar-light">
+				<div class="title">©&nbsp;止于至善&nbsp;&nbsp;版权所有</div>
+			</div>
+			<p>123</p>
 		</body>
 		<script type="text/javascript">
 		alert("欢迎参与答题。本次答题限时30分钟，每人共有三次答题机会，计时开始");
+					var dic = new Array();
 					var now_time = 0;
-				window.setInterval(function(){
-					now_time += 5;
-					$.post("/question",
-						{
-							now_time:now_time
-						},function(data,status){
-							var retdata = JSON.parse(data);
-							if(retdata['code'] == 300){
-								alert(retdata['text']);
+					var mydate = new Date();
+					var start_time = (new Date()).valueOf();
+		$(document).ready(function(){
+					$("#submit_btn").bind("click",function(){
+						//发送时间
+						var end_time = (new Date()).valueOf();
+						var usetime = (end_time - start_time)/1000;
+						
+						//获得答案
+						for(var i=0;i<10;i++){
+							var ans = document.getElementsByName(String(i));
+							for(var j=0;j<ans.length;j++){
+									if(ans[j].checked){
+										dic[i] = ans[j].value;
+									}
+								}
 							}
-							else if(retdata['code'] == 400){
-								alert(retdata['text']);
-								$("#myForm").submit();
+							//发送答案
+							$.post("/result",
+							{
+								"question0":dic[0],
+								"question1":dic[1],
+								"question2":dic[2],
+								"question3":dic[3],
+								"question4":dic[4],
+								"question5":dic[5],
+								"question6":dic[6],
+								"question7":dic[7],
+								"question8":dic[8],
+								"question9":dic[9],
+								time:usetime
+							},function(data,status){
+							var mydata = jQuery.parseJSON(data);
+							window.location.href = "/result?userid="+mydata.userid+"&goal="+mydata.goal
+							});
+						});
+					});
+					window.setInterval(function(){
+						now_time += 5;
+						$.post("/question",
+							{
+								now_time:now_time
+							},function(data,status){
+								var retdata = JSON.parse(data);
+								if(retdata['code'] == 300){
+									alert(retdata['text']);
+								}
+								else if(retdata['code'] == 400){
+									alert(retdata['text']);
+									$("#myForm").submit();
+								}
 							}
-						}
-						)
-				},300000);
-		</script>
-	</html>
+							)
+					},300000);
+			</script>
+		</html>

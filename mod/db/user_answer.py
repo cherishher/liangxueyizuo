@@ -15,6 +15,7 @@ class Answer(Base):
     goal = Column(Integer,nullable=False)
     chance = Column(Integer,default=2)
     degree = Column(Integer,nullable=False)
+    time = Column(Integer,nullable=False)
     answer = Column(String(128), nullable=False)
 
 if __name__ == '__main__':

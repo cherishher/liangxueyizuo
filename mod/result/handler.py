@@ -33,20 +33,31 @@ class ResultHandler(tornado.web.RequestHandler):
 		else:
 			#成绩界面
 			try:
-				answer = self.db.query(Answer).filter(Answer.username == self.current_user).one()
+				userid = self.get_argument("userid")
+				goal = self.get_argument("goal")
+				if not (userid or goal):
+					self.write("params lack!")
 				data = {
-					'userid':answer.username,
-					'goal':answer.goal
+					'userid':userid,
+					'goal':goal
 				}
-				self.render("last_succeed.html",data = data)
+				self.render("succeed.html",data = data)
 			except Exception,e:
 				print str(e)
 
 	def post(self):
-		if not self.current_user:
-			self.redirect("/login")
-			return
-		else:
+		# if not self.current_user:
+		# 	self.redirect("/login")
+		# 	return
+		# else:
+			#获取时间
+			usertime = self.get_argument("time")
+			if usertime:
+				print "usertime:",usertime
+			else:
+				print "no data comes"
+
+			#获取答案
 			data = self.db.query(Questions).all()
 			question_num = 10
 			count = 0
@@ -59,8 +70,8 @@ class ResultHandler(tornado.web.RequestHandler):
 					correct_answer.append(temp2)
 			try:
 				for i in range(0,question_num):
-					temp = self.get_argument(str(i),default='blank')
-					print 'user answer:',temp
+					temp = self.get_argument("question"+str(i),default='blank')
+					print temp
 					user_answerCache.append(temp)
 					if temp == correct_answer[i]:
 						count += 10
@@ -81,6 +92,7 @@ class ResultHandler(tornado.web.RequestHandler):
 					answer.answer = user_answer
 					if answer.goal < count:
 						try:
+							answer.time = usertime
 							answer.goal = count
 							answer.chance = restchance-1
 							self.db.commit()
@@ -94,7 +106,7 @@ class ResultHandler(tornado.web.RequestHandler):
 							print str(e)
 			except NoResultFound:
 				try:
-					user_answer = Answer(username = self.current_user,goal = count,degree = DEGREE,answer = user_answer)
+					user_answer = Answer(username = self.current_user,goal = count,degree = DEGREE,answer = user_answer,time = usertime)
 					self.db.add(user_answer)
 					self.db.commit()
 				except Exception,e:
@@ -111,8 +123,7 @@ class ResultHandler(tornado.web.RequestHandler):
 				'userid':self.current_user,
 				'goal':count
 			}
-			self.render("succeed.html",data = data)
-
+			self.write(json.dumps(data))
 
 
 
